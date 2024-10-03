@@ -22,6 +22,7 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.vue"
+    "**/*.vue",
+    "node_modules/**/*.d.ts",
   ],
 }
