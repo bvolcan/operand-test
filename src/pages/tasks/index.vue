@@ -1,6 +1,5 @@
 <route>
     name: Tasks list
-    path: /tarefas
 </route>
 
 <script setup lang="ts">
@@ -23,10 +22,13 @@ const statusOptions = [
     }
 ]
 
+const isDesktop = useMediaQuery('(min-width: 1024px)')
+const openSidebar = ref(false)
+const isSidebarOpen = computed(() => isDesktop.value || openSidebar.value)
+
 const userTasks = ref<Required<TaskData>[]>([])
 const isEditingTitle = ref(false)
 const isDialogVisible = ref(false)
-
 const selectedTaskIndex = ref(0)
 const selectedTask = computed(() => userTasks.value[selectedTaskIndex.value])
 
@@ -116,38 +118,50 @@ watch(isLoading, () => loaderStore.setLoader(isLoading.value), { immediate: true
 <template>
     <div h="100vh">
         <el-container h="100%">
-            <el-aside bg="#1D3557">
-                <div flex="~ col" h="full">
-                    <el-scrollbar>
-                        <el-row justify="space-between" items="center" p="4">
-                            <h2 text="#F1FAEE">Suas tarefas</h2>
+            <el-aside w="!auto" bg="#1D3557">
+                <div flex="~" h="100%">
+                    <el-menu flex="!~ !col" h="100%" bg="!#1D3557" text-color="#F1FAEE" :collapse="!isSidebarOpen" :default-active="String(selectedTaskIndex)" unique-opened @open="handleSelectTask">
+                        <el-row  justify="space-between" items="center" p="4" gap="x-5">
+                            <h2 v-if="isSidebarOpen" text="#F1FAEE">Suas tarefas</h2>
                             <el-button p="!x-2" color="#E63946" @click="handleNewTask">
-                                Criar Tarefa
+                                <p v-if="isSidebarOpen">
+                                    Criar Tarefa
+                                </p>
+                                <el-icon v-else><Plus /></el-icon>
                             </el-button>
                         </el-row>
-                        <el-menu text-color="#F1FAEE" :default-active="String(selectedTaskIndex)" unique-opened @open="handleSelectTask">
-                            <el-menu-item v-for="task, index in userTasks"
-                                :key="task.id"
-                                bg="#1D3557"
-                                text="hover:#E63946"
-                                :index="`${index}`"
-                            >
-                                <template #title>
-                                    <span>
-                                        {{ task.title  }}
-                                    </span>
-                                </template>
-                            </el-menu-item>
-                        </el-menu>
-                    </el-scrollbar>
-                    <el-button  text size="large" @click="handleLogout">
-                        <div text="#E63946">
-                            Sair
+                        <div flex="~ col !1" items="space-between">
+                            <el-scrollbar>
+                                <el-menu-item v-for="task, index in userTasks"
+                                    :key="task.id"
+                                    bg="#1D3557"
+                                    text="hover:#E63946"
+                                    :index="`${index}`"
+                                >
+                                    <el-icon >
+                                        <SuccessFilled v-if="task.status" color="!#4BB543"/>
+                                        <Clock v-else color="!#A8DADC" />
+                                    </el-icon>
+                                    <template #title>
+                                        <span>
+                                            {{ task.title }}
+                                        </span>
+                                    </template>
+                                </el-menu-item>
+                            </el-scrollbar>
+                            <el-button text size="large" @click="handleLogout">
+                                <div text="#E63946">
+                                    Sair
+                                </div>
+                            </el-button>
                         </div>
-                    </el-button>
+                    </el-menu>
+                    <div v-if="!isDesktop" flex="~" items="center">
+                        <el-button pos="absolute" m="-5" p="!1" z="1" size="large" color="#1D3557" circle :icon="openSidebar ? 'ArrowLeft' : 'ArrowRight'" @click="() => openSidebar = !openSidebar" />
+                    </div>
                 </div>
             </el-aside>
-            <el-main flex="!~" w="!full" justify="center" p="!10" bg="#F1FAEE">
+            <el-main flex="!~" w="!full" justify="center" p="!0 lg:!10" bg="#F1FAEE">
                 <div
                     flex="~ col"
                     bg="white"
@@ -174,31 +188,12 @@ watch(isLoading, () => loaderStore.setLoader(isLoading.value), { immediate: true
                             <el-select v-model="selectedTask.status" size="large" w="!35" @change="handleEdition">
                                 <el-option
                                     v-for="option in statusOptions"
-                                    :key="option.value"
+                                    :key="option.label"
                                     :label="option.label"
                                     :value="option.value"
                                 />
                             </el-select>
                         </el-row>
-                        <!-- <div flex="~ col" justify="center" gap="y-2">
-                            <el-table :data="selectedTaskChecklist" empty-text="Nenhuma Subtarefa Adicionada" w='full' >
-                                <el-table-column>
-                                    <el-checkbox v-model="isSubtaskDone"/>
-                                </el-table-column>
-                                <el-table-column prop="subtask" label="Subtarefa" width="full" />
-                                <el-table-column>
-                                    <el-button size="small">
-                                        Editar
-                                    </el-button>
-                                    <el-button size="small" type="danger">
-                                        Excluir
-                                    </el-button>
-                                </el-table-column>
-                            </el-table>
-                            <el-button>
-                                Adicionar Subtarefa
-                            </el-button>
-                        </div> -->
                         <el-input
                             v-model="selectedTask.description"
                             type="textarea"
