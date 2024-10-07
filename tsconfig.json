@@ -1,8 +1,8 @@
 {
   "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "target": "ESNext",
     "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "customConditions": ["module"],
@@ -12,7 +12,9 @@
     "allowImportingTsExtensions": true,
     "allowArbitraryExtensions": true,
     "verbatimModuleSyntax": true,
-    "baseUrl": "src",
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "paths": {
       "~/*": [
         "src/*"
@@ -22,6 +24,7 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.vue"
+    "**/*.vue",
+    "node_modules/**/*.d.ts",
   ],
 }

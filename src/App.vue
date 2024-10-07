@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { useLoaderStore } from '~/stores'
+
+const loaderStore = useLoaderStore()
 </script>
 
 <template>
-  <main>
+  <main v-loading="loaderStore.isLoading">
     <router-view v-slot="{ Component: component }">
-        <component min-h="100vh" :is="component" />
+        <component :is="component" />
     </router-view>
   </main>
 </template>
