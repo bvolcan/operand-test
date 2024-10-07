@@ -22,32 +22,23 @@ async function handleLogin(formEl: FormInstance | undefined) {
     await formEl.validate(async (valid) => {
         if (valid) {
             await userStore.login(formLogin)
-            router.push({ name: 'Tasks list' })
+            router.push({ name: 'Tasks List' })
         }
     })
 }
 
 onBeforeMount(() => {
     if (userStore.isLogged())
-        router.push({ name: 'Tasks list' })
+        router.push({ name: 'Tasks List' })
 })
 
 </script>
 
 <template>
     <div flex="~ 1" items="center" h="100vh" justify="center" bg="#f1faee" >
-        <div
-            flex="~ col"
-            w="150"
-            p="6 y-10"
-            shadow="2xl"
-            rounded="2xl"
-            justify="center"
-            items="center"
-            bg="white"
-        >
+        <Card>
             <el-text size="large" text="!3xl" m="!2">Login</el-text>
-            <el-form ref="formRef" :model="formLogin" :rules="formRules.login" flex="~ col" w="full" items="center">
+            <el-form ref="formRef" :model="formLogin" :rules="formRules.login" flex="~ col" w="full" items="center" @keyup.enter="handleLogin(formRef)" >
                 <div flex="~ col" m="t-4 b-8" w="80%">
                     <el-form-item label-position="top" label="E-mail" prop="email">
                         <el-input v-model="formLogin.email" type="email" size="large" placeholder="nome@email.com"/>
@@ -71,6 +62,6 @@ onBeforeMount(() => {
                     </el-link>
                 </div>
             </el-form>
-        </div>
+        </Card>
     </div>
 </template>

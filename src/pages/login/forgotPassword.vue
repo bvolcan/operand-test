@@ -50,16 +50,7 @@ watch(isSendingEmail, () => {
 
 <template>
     <div flex="~ 1" items="center" h="100vh" justify="center" bg="#f1faee">
-        <div
-            flex="~ col"
-            w="150"
-            p="6 y-10"
-            shadow="2xl"
-            rounded="2xl"
-            justify="center"
-            items="center"
-            bg="white"
-        >
+        <Card>
             <el-text size="large" text="!3xl" m="!2">Recuperação de Senha</el-text>
             <el-text w="80%" m="!t-2">
                 Esqueceu sua senha? Sem problemas. Insira o seu endereço de e-mail abaixo e envie uma mensagem de recuperação de senha.
@@ -74,6 +65,6 @@ watch(isSendingEmail, () => {
                     Enviar E-mail
                 </el-button>
             </el-form>
-        </div>
+        </Card>
     </div>
 </template>

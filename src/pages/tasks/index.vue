@@ -1,5 +1,5 @@
 <route>
-    name: Tasks list
+    name: Tasks List
 </route>
 
 <script setup lang="ts">
@@ -23,10 +23,6 @@ const statusOptions = [
         label: 'Finalizado'
     }
 ]
-
-const isDesktop = useMediaQuery('(min-width: 1024px)')
-const openSidebar = ref(false)
-const isSidebarOpen = computed(() => isDesktop.value || openSidebar.value)
 
 const userTasks = ref<Required<TaskData>[]>([])
 const isEditingTitle = ref(false)
@@ -59,8 +55,7 @@ const {
 })
 
 const {
-        mutateAsync: updateTask,
-        isLoading: isUpdatingtask,
+        mutateAsync: updateTask
 } = useMutation({
     mutationFn: taskServices.updateTask,
     onError: (error: AuthError) => {
@@ -105,10 +100,6 @@ async function handleEdition() {
 
 }
 
-function handleSelectTask(key: string) {
-    selectedTaskIndex.value = Number(key)
-}
-
 function handleTitleEdition() {
     if (isEditingTitle.value)
         handleEdition()
@@ -119,10 +110,6 @@ function handleTitleEdition() {
 async function handleRemoveTask() {
     await removeTask(selectedTask.value.id)
     await refetchUserTasks.value()
-}
-
-function handleLogout() {
-    userStore.logout()
 }
 
 onBeforeMount(() => {
@@ -139,47 +126,12 @@ watch(isLoading, () => loaderStore.setLoader(isLoading.value), { immediate: true
     <div h="100vh">
         <el-container h="100%">
             <el-aside w="!auto" bg="#1D3557">
-                <div flex="~" h="100%">
-                    <el-menu flex="!~ !col" h="100%" bg="!#1D3557" text-color="#F1FAEE" :collapse="!isSidebarOpen" :default-active="String(selectedTaskIndex)" unique-opened @open="handleSelectTask">
-                        <el-row  justify="space-between" items="center" p="4" gap="x-5">
-                            <h2 v-if="isSidebarOpen" text="#F1FAEE">Suas tarefas</h2>
-                            <el-button p="!x-2" color="#E63946" @click="handleNewTask">
-                                <p v-if="isSidebarOpen">
-                                    Criar Tarefa
-                                </p>
-                                <el-icon v-else><Plus /></el-icon>
-                            </el-button>
-                        </el-row>
-                        <div flex="~ col !1" items="space-between">
-                            <el-scrollbar>
-                                <el-menu-item v-for="task, index in userTasks"
-                                    :key="task.id"
-                                    bg="#1D3557"
-                                    text="hover:#E63946"
-                                    :index="`${index}`"
-                                >
-                                    <el-icon >
-                                        <SuccessFilled v-if="task.status" color="!#4BB543"/>
-                                        <Clock v-else color="!#A8DADC" />
-                                    </el-icon>
-                                    <template #title>
-                                        <span>
-                                            {{ task.title }}
-                                        </span>
-                                    </template>
-                                </el-menu-item>
-                            </el-scrollbar>
-                            <el-button text size="large" @click="handleLogout">
-                                <div text="#E63946">
-                                    Sair
-                                </div>
-                            </el-button>
-                        </div>
-                    </el-menu>
-                    <div v-if="!isDesktop" flex="~" items="center">
-                        <el-button pos="absolute" m="-5" p="!1" z="1" size="large" color="#1D3557" circle :icon="openSidebar ? 'ArrowLeft' : 'ArrowRight'" @click="() => openSidebar = !openSidebar" />
-                    </div>
-                </div>
+                <Sidebar 
+                    :taskList="userTasks"
+                    :task-index="selectedTaskIndex"
+                    :handle-new-task="handleNewTask"
+                    @select-task="key => selectedTaskIndex = key"
+                />
             </el-aside>
             <el-main flex="!~" w="!full" justify="center" p="!0 lg:!10" bg="#F1FAEE">
                 <div
@@ -195,7 +147,7 @@ watch(isLoading, () => loaderStore.setLoader(isLoading.value), { immediate: true
                     items="center"
                 >
                     <div v-if="!!selectedTask" flex="~ col 1" w="full" gap="y-4">
-                        <el-row justify="space-between">
+                        <div flex="~ col-reverse lg:row" justify="between" gap="y-3">
                             <div flex="~" gap="3" items="center">
                                 <h2 v-if="!isEditingTitle">
                                     {{ selectedTask.title }}
@@ -213,7 +165,7 @@ watch(isLoading, () => loaderStore.setLoader(isLoading.value), { immediate: true
                                     :value="option.value"
                                 />
                             </el-select>
-                        </el-row>
+                        </div>
                         <el-input
                             v-model="selectedTask.description"
                             type="textarea"
