@@ -3,8 +3,8 @@
 </route>
 
 <script setup lang="ts">
-import type { FormInstance, FormItemRule } from 'element-plus';
-import formRules from '~/helpers/formRules';
+import type { FormInstance } from 'element-plus'
+import formRules from '~/helpers/formRules'
 import { useUserStore } from '~/stores'
 import type { UserLoginData } from '~/types'
 
@@ -23,8 +23,6 @@ async function handleLogin(formEl: FormInstance | undefined) {
         if (valid) {
             await userStore.login(formLogin)
             router.push({ name: 'Tasks list' })
-        } else {
-            console.log('error')
         }
     })
 }
@@ -41,8 +39,7 @@ onBeforeMount(() => {
         <div
             flex="~ col"
             w="150"
-            h="100"
-            p="6"
+            p="6 y-10"
             shadow="2xl"
             rounded="2xl"
             justify="center"
@@ -50,7 +47,7 @@ onBeforeMount(() => {
             bg="white"
         >
             <el-text size="large" text="!3xl" m="!2">Login</el-text>
-            <el-form :model="formLogin" :rules="formRules.login" flex="~ col" w="full" items="center">
+            <el-form ref="formRef" :model="formLogin" :rules="formRules.login" flex="~ col" w="full" items="center">
                 <div flex="~ col" m="t-4 b-8" w="80%">
                     <el-form-item label-position="top" label="E-mail" prop="email">
                         <el-input v-model="formLogin.email" type="email" size="large" placeholder="nome@email.com"/>
@@ -65,6 +62,14 @@ onBeforeMount(() => {
                 <el-button w="80%" size="large" color="#457B9D" @click="handleLogin(formRef)">
                     Login
                 </el-button>
+                <div m="t-8">
+                    <span text="sm">
+                        Não possui conta?
+                    </span>
+                    <el-link class="!text-[#457B9D]" :underline="false" @click="() => $router.push({ name: 'Create Account' })">
+                        Crie aqui
+                    </el-link>
+                </div>
             </el-form>
         </div>
     </div>

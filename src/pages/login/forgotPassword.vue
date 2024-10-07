@@ -52,8 +52,7 @@ watch(isSendingEmail, () => {
         <div
             flex="~ col"
             w="150"
-            h="100"
-            p="6"
+            p="6 y-10"
             shadow="2xl"
             rounded="2xl"
             justify="center"
@@ -64,7 +63,7 @@ watch(isSendingEmail, () => {
             <el-text w="80%" m="!t-2">
                 Esqueceu sua senha? Sem problemas. Insira o seu endereço de e-mail abaixo e envie uma mensagem de recuperação de senha.
             </el-text>
-            <el-form :model="recoveryEmail" :rules="formRules.sendEmail" flex="~ col" w="full" items="center">
+            <el-form ref="formRef" :model="recoveryEmail" :rules="formRules.email" flex="~ col" w="full" items="center">
                 <div flex="~ col" m="y-4" w="80%">
                     <el-form-item label-position="top" label="E-mail" prop="email">
                         <el-input v-model="recoveryEmail.email" type="email" size="large" placeholder="nome@email.com"/>

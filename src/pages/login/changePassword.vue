@@ -34,6 +34,7 @@ const {
 })
 
 async function handleSaveNewPassord(formEl: FormInstance | undefined) {
+    console.log(formEl)
     if (!formEl) return
     await formEl.validate(async (valid) => {
         if (valid) {
@@ -53,8 +54,7 @@ watch(isSavingPassword, () => {
         <div
             flex="~ col"
             w="150"
-            h="100"
-            p="6"
+            p="6 y-10"
             shadow="2xl"
             rounded="2xl"
             justify="center"
@@ -62,7 +62,7 @@ watch(isSavingPassword, () => {
             bg="white"
         >
             <el-text size="large" text="!3xl" m="!2">Recuperação de Senha</el-text>
-            <el-form :model="changePasswordForm" :rules="formRules.changePassword(changePasswordForm.password)" flex="~ col" w="full" items="center">
+            <el-form ref="formRef" :model="changePasswordForm" :rules="formRules.changePassword(changePasswordForm.password)" flex="~ col" w="full" items="center">
                 <div flex="~ col" m="t-4 b-8" w="80%">
                     <el-form-item label-position="top" label="Nova Senha" prop="password" m="!b-3">
                         <el-input v-model="changePasswordForm.password" type="password" size="large" show-password placeholder="**********"/>
