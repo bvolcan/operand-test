@@ -3,7 +3,8 @@
 </route>
 
 <script setup lang="ts">
-import { useQuery } from 'vue-query';
+import { useQuery } from 'vue-query'
+import handleMessages from '~/helpers/handleMessages'
 import { taskServices } from '~/services'
 import { useLoaderStore, useUserStore } from '~/stores'
 import { type TaskData } from '~/types'
@@ -34,48 +35,73 @@ const selectedTask = computed(() => userTasks.value[selectedTaskIndex.value])
 
 const { isFetching: isFetchingTasks, refetch: refetchUserTasks } = useQuery('fetchUserTasks', () => taskServices.fetchTasks(userStore.id), {
     refetchOnWindowFocus: false,
-    onSuccess: (data) => userTasks.value = data || [],
-    onError: (error) => console.log(error)
+    onSuccess: (data) => {
+        userTasks.value = data || []
+        selectedTaskIndex.value = 0
+    },
+    onError: (error) => {
+        handleMessages.errorMessage(error.message)
+    }
 })
 
 const {
         mutateAsync: createTask,
         isLoading: isCreatingtask,
-} = useMutation(taskServices.createTask)
+} = useMutation({
+    mutationFn: taskServices.createTask,
+    onError: (error) => {
+        handleMessages.errorMessage(error.message)
+    },
+    onSuccess: () => {
+        handleMessages.successMessage('Tarefa criada com sucesso.')
+    }
+})
 
 const {
         mutateAsync: updateTask,
         isLoading: isUpdatingtask,
-} = useMutation(taskServices.updateTask)
+} = useMutation({
+    mutationFn: taskServices.updateTask,
+    onError: (error) => {
+        handleMessages.errorMessage(error.message)
+    },
+    onSuccess: () => {
+        handleMessages.successMessage('Tarefa atualizada com sucesso.')
+    }
+})
 
 const {
         mutateAsync: removeTask,
         isLoading: isRemovingtask,
-} = useMutation(taskServices.removeTask)
+} = useMutation({
+    mutationFn: taskServices.removeTask,
+    onError: (error) => {
+        handleMessages.errorMessage(error.message)
+    },
+    onSettled: () => {
+        isDialogVisible.value = false
+    },
+    onSuccess: () => {
+        handleMessages.successMessage('Tarefa removida com sucesso.')
+    }
+})
 
 async function handleNewTask() {
-    try {
-        await createTask({
-            user_id: userStore.id,
-            title: 'Nova Tarefa',
-            status: false,
-            description: ''
-        })
-        await refetchUserTasks.value()
-    } catch (error) {
-        console.log(error)
-    }
+    await createTask({
+        user_id: userStore.id,
+        title: 'Nova Tarefa',
+        status: false,
+        description: ''
+    })
+    await refetchUserTasks.value()
 }
 
 async function handleEdition() {
-    try {
-        await updateTask({
-            user_id: userStore.id,
-            ...selectedTask.value
-        })
-    } catch (error) {
-        console.log(error)
-    }
+    await updateTask({
+        user_id: userStore.id,
+        ...selectedTask.value
+    })
+
 }
 
 function handleSelectTask(key: string) {
@@ -90,15 +116,8 @@ function handleTitleEdition() {
 }
 
 async function handleRemoveTask() {
-    try {
-        await removeTask(selectedTask.value.id)
-        await refetchUserTasks.value()
-    } catch (error) {
-        console.log(error)
-    } finally {
-        selectedTaskIndex.value = 0
-        isDialogVisible.value = false
-    }
+    await removeTask(selectedTask.value.id)
+    await refetchUserTasks.value()
 }
 
 function handleLogout() {
