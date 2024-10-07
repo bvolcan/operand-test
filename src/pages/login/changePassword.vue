@@ -3,6 +3,7 @@
 </route>
 
 <script setup lang="ts">
+import type { AuthError } from '@supabase/supabase-js'
 import type { FormInstance } from 'element-plus'
 import formRules from '~/helpers/formRules'
 import handleMessages from '~/helpers/handleMessages'
@@ -24,7 +25,7 @@ const {
     isLoading: isSavingPassword,
 } = useMutation({
     mutationFn: userAuth.changePassword,
-    onError: (error) => {
+    onError: (error: AuthError) => {
         handleMessages.errorMessage(error.message)
     },
     onSuccess: () => {
@@ -51,16 +52,7 @@ watch(isSavingPassword, () => {
 </script>
 <template>
     <div flex="~ 1" items="center" h="100vh" justify="center" bg="#f1faee">
-        <div
-            flex="~ col"
-            w="150"
-            p="6 y-10"
-            shadow="2xl"
-            rounded="2xl"
-            justify="center"
-            items="center"
-            bg="white"
-        >
+        <Card>
             <el-text size="large" text="!3xl" m="!2">Recuperação de Senha</el-text>
             <el-form ref="formRef" :model="changePasswordForm" :rules="formRules.changePassword(changePasswordForm.password)" flex="~ col" w="full" items="center">
                 <div flex="~ col" m="t-4 b-8" w="80%">
@@ -75,6 +67,6 @@ watch(isSavingPassword, () => {
                     Salvar
                 </el-button>
             </el-form>
-        </div>
+        </Card>
     </div>
 </template>

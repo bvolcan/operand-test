@@ -1,3 +1,9 @@
+.firebase/*
+.firebaserc
+firebase.json
+
+*.tsbuildinfo
+
 .env
 
 .pnp.*
