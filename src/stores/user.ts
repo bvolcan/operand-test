@@ -3,6 +3,7 @@ import { userAuth } from '~/services'
 import type { UserLoginData } from '~/types'
 import useLoaderStore from './loader'
 import handleMessages from '~/helpers/handleMessages'
+import type { AuthError } from '@supabase/supabase-js'
 
 const useUserStore = defineStore('User', () => {
     const loaderStore = useLoaderStore()
@@ -16,7 +17,7 @@ const useUserStore = defineStore('User', () => {
         isLoading: isLoggingIn,
     } = useMutation({
         mutationFn: userAuth.userLogin,
-        onError: (error) => {
+        onError: (error: AuthError) => {
             handleMessages.errorMessage(error.message)
         },
         onSuccess: (data) => {
@@ -30,7 +31,7 @@ const useUserStore = defineStore('User', () => {
         isLoading: isLoggingOut,
     } = useMutation({
         mutationFn: userAuth.logout,
-        onError: (error) => {
+        onError: (error: AuthError) => {
             handleMessages.errorMessage(error.message)
         },
         onSuccess: () => {

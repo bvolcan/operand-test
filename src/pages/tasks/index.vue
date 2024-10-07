@@ -3,6 +3,7 @@
 </route>
 
 <script setup lang="ts">
+import type { AuthError } from '@supabase/supabase-js'
 import { useQuery } from 'vue-query'
 import handleMessages from '~/helpers/handleMessages'
 import { taskServices } from '~/services'
@@ -39,7 +40,7 @@ const { isFetching: isFetchingTasks, refetch: refetchUserTasks } = useQuery('fet
         userTasks.value = data || []
         selectedTaskIndex.value = 0
     },
-    onError: (error) => {
+    onError: (error: AuthError) => {
         handleMessages.errorMessage(error.message)
     }
 })
@@ -49,7 +50,7 @@ const {
         isLoading: isCreatingtask,
 } = useMutation({
     mutationFn: taskServices.createTask,
-    onError: (error) => {
+    onError: (error: AuthError) => {
         handleMessages.errorMessage(error.message)
     },
     onSuccess: () => {
@@ -62,7 +63,7 @@ const {
         isLoading: isUpdatingtask,
 } = useMutation({
     mutationFn: taskServices.updateTask,
-    onError: (error) => {
+    onError: (error: AuthError) => {
         handleMessages.errorMessage(error.message)
     },
     onSuccess: () => {
@@ -75,7 +76,7 @@ const {
         isLoading: isRemovingtask,
 } = useMutation({
     mutationFn: taskServices.removeTask,
-    onError: (error) => {
+    onError: (error: AuthError) => {
         handleMessages.errorMessage(error.message)
     },
     onSettled: () => {

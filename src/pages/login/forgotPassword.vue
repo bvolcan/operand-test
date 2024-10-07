@@ -3,6 +3,7 @@
 </route>
 
 <script setup lang="ts">
+import type { AuthError } from '@supabase/supabase-js'
 import type { FormInstance } from 'element-plus'
 import formRules from '~/helpers/formRules'
 import handleMessages from '~/helpers/handleMessages'
@@ -22,7 +23,7 @@ const {
         isLoading: isSendingEmail,
 } = useMutation({
     mutationFn: userAuth.recoverPassword,
-    onError: (error) => {
+    onError: (error: AuthError) => {
         handleMessages.errorMessage(error.message)
     },
     onSuccess: () => {

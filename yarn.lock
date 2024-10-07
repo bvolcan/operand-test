@@ -112,7 +112,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antfu/utils@npm:^0.7.10, @antfu/utils@npm:^0.7.2":
+"@antfu/utils@npm:^0.7.10":
   version: 0.7.10
   resolution: "@antfu/utils@npm:0.7.10"
   checksum: 10c0/98991f66a4752ef097280b4235b27d961a13a2c67ef8e5b716a120eb9823958e20566516711204e2bfb08f0b935814b715f49ecd79c3b9b93ce32747ac297752
@@ -1111,7 +1111,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.2, @rollup/pluginutils@npm:^5.1.0, @rollup/pluginutils@npm:^5.1.2":
+"@rollup/pluginutils@npm:^5.1.0, @rollup/pluginutils@npm:^5.1.2":
   version: 5.1.2
   resolution: "@rollup/pluginutils@npm:5.1.2"
   dependencies:
@@ -4384,13 +4384,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"local-pkg@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "local-pkg@npm:0.4.3"
-  checksum: 10c0/361c77d7873a629f09c9e86128926227171ee0fe3435d282fb80303ff255bb4d3c053b555d47e953b4f41d2561f2a7bc0e53e9ca5c9bc9607226a77c91ea4994
-  languageName: node
-  linkType: hard
-
 "local-pkg@npm:^0.5.0":
   version: 0.5.0
   resolution: "local-pkg@npm:0.5.0"
@@ -5061,7 +5054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^9.0.1, minimatch@npm:^9.0.3, minimatch@npm:^9.0.4, minimatch@npm:^9.0.5":
+"minimatch@npm:^9.0.3, minimatch@npm:^9.0.4, minimatch@npm:^9.0.5":
   version: 9.0.5
   resolution: "minimatch@npm:9.0.5"
   dependencies:
@@ -5412,7 +5405,7 @@ __metadata:
     typescript: "npm:^5.5.3"
     typescript-eslint: "npm:^8.8.0"
     unocss: "npm:^0.63.1"
-    unplugin-auto-import: "npm:0.16.4"
+    unplugin-auto-import: "npm:^0.18.3"
     unplugin-vue-components: "npm:^0.27.4"
     vite: "npm:^5.4.1"
     vite-plugin-pages: "npm:^0.32.3"
@@ -6578,7 +6571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unimport@npm:^3.0.7, unimport@npm:^3.12.0":
+"unimport@npm:^3.12.0":
   version: 3.13.1
   resolution: "unimport@npm:3.13.1"
   dependencies:
@@ -6699,17 +6692,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-auto-import@npm:0.16.4":
-  version: 0.16.4
-  resolution: "unplugin-auto-import@npm:0.16.4"
+"unplugin-auto-import@npm:^0.18.3":
+  version: 0.18.3
+  resolution: "unplugin-auto-import@npm:0.18.3"
   dependencies:
-    "@antfu/utils": "npm:^0.7.2"
-    "@rollup/pluginutils": "npm:^5.0.2"
-    local-pkg: "npm:^0.4.3"
-    magic-string: "npm:^0.30.0"
-    minimatch: "npm:^9.0.1"
-    unimport: "npm:^3.0.7"
-    unplugin: "npm:^1.3.1"
+    "@antfu/utils": "npm:^0.7.10"
+    "@rollup/pluginutils": "npm:^5.1.0"
+    fast-glob: "npm:^3.3.2"
+    local-pkg: "npm:^0.5.0"
+    magic-string: "npm:^0.30.11"
+    minimatch: "npm:^9.0.5"
+    unimport: "npm:^3.12.0"
+    unplugin: "npm:^1.14.1"
   peerDependencies:
     "@nuxt/kit": ^3.2.2
     "@vueuse/core": "*"
@@ -6718,7 +6712,7 @@ __metadata:
       optional: true
     "@vueuse/core":
       optional: true
-  checksum: 10c0/16d0636fe46acfc5f5eee0a189e15c3872413d0586768b52c346d79f9f35fb4310cc660168afeb20b83a6091ea37a43d05def10f86171ef8ef252301f441b555
+  checksum: 10c0/3d4ebd3d1d4b4957da40c6b34a448020e54a93973ed1dd51993ac608fd7c497b814e926204f2c3b897fcd5f6b2aff1019aada9a042d60e12f22c80b100ca578a
   languageName: node
   linkType: hard
 
